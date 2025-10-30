@@ -13,6 +13,11 @@ from commands.cat import cat_command
 from commands.cp import cp_command
 from commands.mv import mv_command
 from commands.rm import rm_command
+from commands.zip import zip_command
+from commands.unzip import unzip_command
+from commands.tar import tar_command
+from commands.untar import untar_command
+from commands.grep import grep_command
 
 
 def setup_logging():  # Настройка логирования в файле shell.log
@@ -26,7 +31,9 @@ def setup_logging():  # Настройка логирования в файле 
 
 
 def log_command(command: str, flag=True , error_message=""):
-    status = "SUCCESS" if flag else f"ERROR: {error_message}"  # Определяем статус выполнения
+    # Определяем статус выполнения
+    if flag: status = "SUCCESS"
+    else: status = f"ERROR: {error_message}"
     log_message = f"{command} - {status}"  # Формируем строку для лога
     logging.info(log_message)  # Записываем в файл лога
     print(log_message)
@@ -67,7 +74,8 @@ def main():
 
             parts = user_input.split(maxsplit=1)  # Разбиваем на 2 части: команда и остальное
             command = parts[0]
-            args = parts[1] if len(parts) > 1 else ""
+            if len(parts) > 1: args = parts[1]
+            else: args = ""
 
             result = ""
             flag = True
@@ -89,6 +97,16 @@ def main():
                     result = mv_command(args, current_catalog, get_absolute_path, parse_args)
                 elif command == 'rm':
                     result = rm_command(args, current_catalog, get_absolute_path, parse_args)
+                elif command == 'zip':
+                    result = zip_command(args, current_catalog, get_absolute_path, parse_args)
+                elif command == 'unzip':
+                    result = unzip_command(args, current_catalog, get_absolute_path, parse_args)
+                elif command == 'tar':
+                    result = tar_command(args, current_catalog, get_absolute_path, parse_args)
+                elif command == 'untar':
+                    result = untar_command(args, current_catalog, get_absolute_path, parse_args)
+                elif command == 'grep':
+                    result = grep_command(args, current_catalog, get_absolute_path, parse_args)
                 else:
                     result = f"Неизвестная команда: {command}"
                     flag = False

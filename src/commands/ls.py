@@ -8,13 +8,14 @@ from datetime import datetime
 def ls_command(args: str, current_catalog: str, get_absolute_path, parse_args) -> str:
     try:
         flags, parameters = parse_args(args)  # Разбираем аргументы на флаги и параметры
-        path = get_absolute_path(parameters[0] if parameters else current_catalog, current_catalog)  # Получаем абсолютный путь к целевому каталогу/файлу
+        if parameters: target0 = parameters[0]
+        else: target0 = current_catalog
+        path = get_absolute_path(target0, current_catalog)  # Получаем абсолютный путь к целевому каталогу/файлу
         target = Path(path)  # Создаем объект Path для работы с путями
 
         if not target.exists():  # Проверяем существование целевого пути
             return "ERROR: Такого файла или каталога нет"
 
-        files = []
         if target.is_file():  # Определяем файл это или каталог
             files = [target]
         else:
@@ -45,7 +46,7 @@ def ls_command(args: str, current_catalog: str, get_absolute_path, parse_args) -
                         name = f"{file.name} -> [broken]"
 
                 lines.append(f"{permissions} {stat_info.st_nlink:>2} {size:>8} {time} {name}")  # Форматируем строку вывода
-            except Exception as e:
+            except Exception:
                 lines.append(f"?????????? {'?':>2} {'?':>8} {file.name}")  # Если не удалось получить информацию о файле
 
         return "\n".join(lines)
