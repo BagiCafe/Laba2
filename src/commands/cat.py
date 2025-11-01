@@ -1,13 +1,13 @@
 from pathlib import Path
 
 
-def file_path(parameters: list, current_catalog: str, get_absolute_path) -> str:  # Получаем абсолютный путь к указанному файлу
+def get_file_path(parameters: list, current_catalog: str, get_absolute_path) -> str:  # Получаем абсолютный путь к указанному файлу
     if not parameters:
         return ""
     return get_absolute_path(parameters[0], current_catalog)
 
 
-def file_path(file: str) -> tuple:  # Проверяем существование файла и что это не директория
+def validate_file(file: str) -> tuple:  # Проверяем существование файла и что это не директория
     path_object = Path(file)  # Создаем объект Path для удобной работы с путем
     if not path_object.exists():
         return False, f"ERROR: Файл не существует: {file}"
@@ -30,10 +30,10 @@ def read_file(file: str) -> tuple:  # Читаем содержимое файл
 def cat_command(args: str, current_catalog: str, get_absolute_path, parse_args) -> str:
     try:
         flags, parameters = parse_args(args)  # Разбираем аргументы на флаги и параметры
-        file_path1 = file_path(parameters, current_catalog, get_absolute_path)
-        if not file_path1:
+        file_path = get_file_path(parameters, current_catalog, get_absolute_path)
+        if not file_path:
             return "ERROR: Не указан файл"
-        valid, valid_result = file_path(file_path1)
+        valid, valid_result = validate_file(file_path)
         if not valid:
             return valid_result
         read_success, content = read_file(valid_result)
