@@ -111,7 +111,6 @@ def main():
                     result = f"Неизвестная команда: {command}"
                     flag = False
                     error_message = f"Unknown command: {command}"
-
             except Exception as e:
                 result = f"ERROR: {str(e)}"
                 flag = False
