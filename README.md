@@ -7,6 +7,9 @@
 # Клонирование репозитория
 git clone <https://github.com/BagiCafe/Laba2.git>
 
+# Установите pytest-mock для тестов
+pip install pytest-mock
+
 # Запуск основной программы
 python src/main.py
 ```
@@ -110,3 +113,24 @@ grep [flag] <pattern> <path>
 **А также для rm - Попытки удаления корневых или родительских каталогов**
 
 ## Тестирование
+Для запуска всех тестов необходимо ввести в консоль:
+```bash
+python -m pytest tests/ -v
+```
+
+Для запуска определенного теста ввидите в консоль:
+```bash
+python -m pytest tests/<file_name_test> -v
+```
+Название всех тестов:
+- test_ls.py
+- test_cd.py
+- test_cat.py
+- test_cp.py
+- test_mv.py
+- test_rm.py
+- test_zip.py
+- test_tar.py
+- test_unzip.py
+- test_untar.py
+- test_grep.py
