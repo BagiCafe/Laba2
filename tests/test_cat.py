@@ -10,7 +10,7 @@ parent_dir = os.path.dirname(current_dir)
 src_dir = os.path.join(parent_dir, 'src')
 sys.path.insert(0, src_dir)
 
-from commands.cat import (cat_command, validate_file)
+from commands.cat import cat_command, validate_file
 
 
 class TestValidateFile:  # Тесты для функции validate_file
