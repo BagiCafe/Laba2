@@ -77,5 +77,7 @@ def untar_command(args: str, current_catalog: str, get_absolute_path, parse_args
             return target_result
         success, result = extract_tar_archive(format_result, target_result)
         return result
+    except PermissionError as e:
+        return f"ERROR: Ошибка прав доступа: {str(e)}"
     except Exception as e:
         return f"ERROR: {str(e)}"

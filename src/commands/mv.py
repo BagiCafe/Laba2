@@ -47,5 +47,7 @@ def mv_command(args: str, current_catalog: str, get_absolute_path, parse_args) -
         final_destination = prepare_destination_path(source, purpose)
         success, result = move_item(source, final_destination)
         return result
+    except PermissionError as e:
+        return f"ERROR: Ошибка прав доступа: {str(e)}"
     except Exception as e:
         return f"ERROR: {str(e)}"

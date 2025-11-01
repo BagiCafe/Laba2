@@ -64,6 +64,7 @@ def ls_command(args: str, current_catalog: str, get_absolute_path, parse_args) -
             return simple_output(files)
         else:
             return detailed_output(files)
-
+    except PermissionError as e:
+        return f"ERROR: Ошибка прав доступа: {str(e)}"
     except Exception as e:
         return f"ERROR: {str(e)}"

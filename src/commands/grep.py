@@ -10,7 +10,6 @@ def pattern_search_path(parameters: list, current_catalog: str, get_absolute_pat
     absolute_path = get_absolute_path(path, current_catalog)
     return pattern, absolute_path
 
-
 def validate_search_path(search_path: str) -> tuple:  # Проверяем существование пути поиска
     path_object = Path(search_path)
     if not path_object.exists():
@@ -97,5 +96,7 @@ def grep_command(args: str, current_catalog: str, get_absolute_path, parse_args)
 
         search_results = perform_search(files_result, pattern_result)
         return format_results(search_results)
+    except PermissionError as e:
+        return f"ERROR: Ошибка прав доступа: {str(e)}"
     except Exception as e:
         return f"ERROR: {str(e)}"

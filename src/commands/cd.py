@@ -8,8 +8,6 @@ def special_paths(path: str, current_catalog: str) -> str:  # Обрабатыв
     elif path == "..":
         new_catalog = Path(current_catalog).parent  # переход на родительский каталог
         return str(new_catalog)
-    elif path == "-":
-        return current_catalog  # возвращаем текущий каталог
     else:
         return path  # обычный путь, не требующий специальной обработки
 
@@ -46,6 +44,7 @@ def cd_command(args: str, current_catalog: str, get_absolute_path, parse_args) -
             return result
         else:
             return result
-
+    except PermissionError as e:
+        return f"ERROR: Ошибка прав доступа: {str(e)}"
     except Exception as e:
         return f"ERROR: {str(e)}"

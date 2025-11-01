@@ -63,5 +63,7 @@ def cp_command(args: str, current_catalog: str, get_absolute_path, parse_args) -
         else:
             success, result = handle_file_copy(source, purpose_path)
         return result
+    except PermissionError as e:
+        return f"ERROR: Ошибка прав доступа: {str(e)}"
     except Exception as e:
         return f"ERROR: {str(e)}"

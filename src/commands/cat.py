@@ -1,7 +1,7 @@
 from pathlib import Path
 
 
-def get_file_path(parameters: list, current_catalog: str, get_absolute_path) -> str:  # Получаем абсолютный путь к указанному файлу
+def file_path(parameters: list, current_catalog: str, get_absolute_path) -> str:  # Получаем абсолютный путь к указанному файлу
     if not parameters:
         return ""
     return get_absolute_path(parameters[0], current_catalog)
@@ -30,7 +30,7 @@ def read_file(file: str) -> tuple:  # Читаем содержимое файл
 def cat_command(args: str, current_catalog: str, get_absolute_path, parse_args) -> str:
     try:
         flags, parameters = parse_args(args)  # Разбираем аргументы на флаги и параметры
-        file_path1 = get_file_path(parameters, current_catalog, get_absolute_path)
+        file_path1 = file_path(parameters, current_catalog, get_absolute_path)
         if not file_path1:
             return "ERROR: Не указан файл"
         valid, valid_result = file_path(file_path1)
@@ -41,5 +41,7 @@ def cat_command(args: str, current_catalog: str, get_absolute_path, parse_args) 
             return content
         else:
             return content
+    except PermissionError as e:
+        return f"ERROR: Ошибка прав доступа: {str(e)}"
     except Exception as e:
         return f"ERROR: {str(e)}"

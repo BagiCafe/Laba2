@@ -2,7 +2,7 @@ import shutil
 from pathlib import Path
 
 
-def get_target_path(parameters: list, current_catalog: str, get_absolute_path) -> str:  # Получаем абсолютный путь к целевому объекту
+def target_path(parameters: list, current_catalog: str, get_absolute_path) -> str:  # Получаем абсолютный путь к целевому объекту
     if not parameters:
         return ""
     return get_absolute_path(parameters[0], current_catalog)
@@ -48,18 +48,20 @@ def delete_file(target_path: Path) -> tuple:  # Удаляем файл
 def rm_command(args: str, current_catalog: str, get_absolute_path, parse_args) -> str:
     try:
         flags, parameters = parse_args(args)  # Разбираем аргументы на флаги и параметры
-        target = get_target_path(parameters, current_catalog, get_absolute_path)
+        target = target_path(parameters, current_catalog, get_absolute_path)
         if not target:
             return "ERROR: Не указан файл/каталог для удаления"
         valid, validation_result = validate_target_path(target, current_catalog)
         if not valid:
             return validation_result
-        target_path = Path(validation_result)
+        target_path1 = Path(validation_result)
         recursive = '-r' in flags  # Проверяем флаг рекурсивного удаления
-        if target_path.is_dir():
-            success, result = delete_catalog(target_path, recursive)
+        if target_path1.is_dir():
+            success, result = delete_catalog(target_path1, recursive)
         else:
-            success, result = delete_file(target_path)
+            success, result = delete_file(target_path1)
         return result
+    except PermissionError as e:
+        return f"ERROR: Ошибка прав доступа: {str(e)}"
     except Exception as e:
         return f"ERROR: {str(e)}"

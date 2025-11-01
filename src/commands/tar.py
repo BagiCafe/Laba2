@@ -57,5 +57,7 @@ def tar_command(args: str, current_catalog: str, get_absolute_path, parse_args) 
             return archive_result
         success, result = create_tar_archive(catalog_result, archive_result)
         return result
+    except PermissionError as e:
+        return f"ERROR: Ошибка прав доступа: {str(e)}"
     except Exception as e:
         return f"ERROR: {str(e)}"
